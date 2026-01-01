@@ -160,7 +160,7 @@ main {
     display: none;
 }
 
-.month-section.collapsed .month-title::after {
+.month-section.paid-month.collapsed .month-title::after {
     content: " (Selesai)";
     font-size: 0.7em;
     color: var(--primary);

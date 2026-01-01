@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aim-schedule-v5.0';
+const CACHE_NAME = 'aim-schedule-v5.0.1';
 const ASSETS = [
     './',
     './index.html',

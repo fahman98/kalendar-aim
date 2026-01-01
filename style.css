@@ -1,0 +1,433 @@
+:root {
+    --primary: #10b981; /* Emerald 500 */
+    --primary-dark: #047857;
+    --primary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --bg: #f8fafc; /* Lighter Slate */
+    --text: #1e293b; /* Slate 800 */
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1.5rem 1.5rem 3rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-bottom: -1rem; /* Overlap effect */
+}
+
+h1 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.75rem;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.summary-card {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.summary-item .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+.summary-item .value {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.progress-container {
+    margin-top: 1.5rem;
+    background: rgba(0,0,0,0.2);
+    height: 1.25rem;
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    height: 100%;
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 1rem;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+main {
+    padding: 2rem 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Month Section Styles */
+.month-section {
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.month-section.paid-month .weeks-container {
+    opacity: 0.5;
+}
+
+.month-section.collapsed .weeks-container {
+    display: none;
+}
+
+.month-header {
+    background-color: var(--card-bg);
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+    margin-bottom: 0.5rem;
+    box-shadow: var(--shadow-md);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative; /* For ripple or active state */
+}
+
+.month-header:active {
+    transform: scale(0.98);
+}
+
+.month-section.paid-month .month-header {
+    border-color: var(--primary);
+    background-color: #ecfdf5;
+    box-shadow: var(--shadow-sm);
+}
+
+.month-section.collapsed .month-header {
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1.25rem;
+}
+
+.month-section.collapsed .header-bottom-calc {
+    display: none;
+}
+
+.month-section.collapsed .month-title::after {
+    content: " (Selesai)";
+    font-size: 0.7em;
+    color: var(--primary);
+    font-weight: 600;
+    margin-left: 0.5rem;
+    background: #d1fae5;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.month-section.collapsed .header-top {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.month-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+.month-meta {
+    font-size: 1rem; /* Increased from 0.75rem */
+    color: #64748b;
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+/* Updated Calc Layout */
+.header-bottom-calc {
+    font-size: 1rem; /* Default size */
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #475569;
+    font-family: 'Poppins', monospace; 
+}
+
+.calc-label {
+    font-weight: 500;
+}
+
+.calc-val {
+    font-weight: 600;
+}
+
+/* Mak Custom Color - Blue/Indigo implying authority/base */
+.calc-row.mak-text {
+    color: #2563eb; /* Royal Blue */
+}
+.calc-row.mak-text .calc-label {
+    font-weight: 700;
+}
+
+
+.calc-row.highlight {
+    color: #059669; /* Dark Green */
+}
+
+.calc-row.highlight .calc-label {
+    font-weight: 700;
+    margin-left: -0.6em; /* Optical alignment for the '+' sign */
+}
+
+.calc-line {
+    height: 2px;
+    background: #94a3b8; /* Darker line for emphasis */
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    width: 100%;
+}
+
+.total-row {
+    margin-top: 0.25rem;
+    color: #1e293b; /* Dark Slate */
+    font-size: 1.1em;
+}
+
+.total-row .calc-label {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.total-row .calc-val {
+    font-weight: 800;
+}
+
+
+/* Toggle Switch */
+.toggle-switch {
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    width: 52px;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #cbd5e1;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 3px;
+    content: "";
+    height: 24px;
+    left: 3px;
+    position: absolute;
+    transition: .4s;
+    width: 24px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+input:checked + .slider {
+    background-color: var(--primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+/* Simplified Weeks List */
+.weeks-container {
+    padding: 0.5rem 1rem;
+    background: white;
+    border-radius: 1rem;
+    margin-top: -1.5rem; /* Tuck under header */
+    padding-top: 2rem;
+    position: relative;
+    z-index: -1;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+    border-top: none;
+}
+
+.week-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.9rem;
+    color: #64748b;
+    align-items: center;
+}
+
+.week-row:last-child {
+    border-bottom: none;
+}
+
+.week-lbl { 
+    width: 40px; 
+    font-weight: 700; 
+    color: #94a3b8;
+    background: #f1f5f9;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px 0;
+    font-size: 0.75rem;
+}
+
+.week-dt { 
+    flex-grow: 1; 
+    text-align: left; 
+    padding-left: 1rem;
+    font-weight: 500;
+}
+
+.week-amt { 
+    font-family: 'Poppins', sans-serif; /* Keep consistent font */
+    font-weight: 600;
+    color: #475569;
+}
+
+.week-done .week-dt { color: var(--primary); font-weight: 600; }
+.week-done .week-amt { text-decoration: line-through; opacity: 0.5; }
+
+.week-pending .week-dt { color: #ef4444; font-weight: 700; }
+.week-pending .week-amt { color: #ef4444; font-weight: 700; }
+
+.week-holiday {
+    background-color: #fef2f2; /* Light Red tint */
+    border-left: 3px solid #ef4444;
+}
+.week-holiday .week-dt {
+    color: #991b1b;
+    font-weight: 700;
+}
+
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.month-section {
+    margin-bottom: 1.5rem;
+    opacity: 0; /* Start hidden for stagger */
+    animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 50%; /* Circle confetti */
+}
+
+/* Ensure no scrollbar during explosion */
+body {
+    overflow-x: hidden;
+}
+
+footer {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    color: #94a3b8;
+    font-size: 0.875rem;
+}
+
+/* Button Reset specific for footer */
+footer button {
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+footer button:active {
+    transform: scale(0.95);
+}

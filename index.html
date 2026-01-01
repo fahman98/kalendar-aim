@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadual AIM Mak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10b981">
+    <meta name="description" content="Jadual pembayaran balik Amanah Ikhtiar Malaysia">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.svg">
+</head>
+<body>
+    <header>
+        <h1>Jadual AIM Mak</h1>
+        <div class="summary-card">
+            <div class="summary-item">
+                <span class="label">Sudah Bayar</span>
+                <span class="value" id="total-paid">RM 0</span>
+            </div>
+            <div class="summary-item">
+                <span class="label">Baki</span>
+                <span class="value" id="remaining">RM 5500</span>
+            </div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+            <span class="progress-text" id="progress-text">0/50 Minggu</span>
+        </div>
+    </header>
+
+    <main id="payment-list">
+        <!-- List will be populated by JS -->
+    </main>
+
+    <footer>
+        <p>Sasaran Tamat: <span id="target-date">Mengira...</span></p>
+        <p style="font-size: 0.7em; opacity: 0.5;">Versi 4.7 (Auto Date)</p>
+        <button onclick="window.location.reload(true)" style="margin-top:10px; font-size:0.7em; padding:5px; background:rgba(0,0,0,0.1); border:none; border-radius:5px; color:inherit;">Paksa Refresh</button>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('SW registered', reg))
+                .catch(err => console.log('SW failed', err));
+        }
+    </script>
+</body>
+</html>

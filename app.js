@@ -304,6 +304,10 @@ function createParticle(x, y) {
 }
 
 
+function updateUI() {
+    initApp();
+}
+
 function formatDate(date) {
     // Format: 13 Okt 2025
     const options = { day: 'numeric', month: 'short', year: 'numeric' };

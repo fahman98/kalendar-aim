@@ -154,6 +154,7 @@ function initApp() {
             saveMonthPayment(key, e.target.checked);
             if(e.target.checked) {
                 fireConfetti(); // Trigger Confetti
+                playSuccessSound(); // Trigger Sound
             }
             updateUI();
         });
@@ -303,6 +304,28 @@ function createParticle(x, y) {
     animation.onfinish = () => particle.remove();
 }
 
+function playSuccessSound() {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    // "Coin" Sound: High pitch with quick decay
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1200, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1800, ctx.currentTime + 0.1);
+
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.5);
+}
 
 function updateUI() {
     initApp();

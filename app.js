@@ -71,6 +71,8 @@ function initApp() {
 
     // 3. Render
     let totalPaidWeeks = 0;
+    const today = new Date().toISOString().split('T')[0];
+    let currentWeekEl = null;
     const sortedKeys = Object.keys(months).sort((a,b) => {
         const [y1, m1] = a.split('-').map(Number);
         const [y2, m2] = b.split('-').map(Number);
@@ -95,10 +97,11 @@ function initApp() {
 
         const isMonthPaid = savedData[key] === true;
         if (isMonthPaid) totalPaidWeeks += weekCount;
+        const hasOverdueWeeks = !isMonthPaid && payableWeeks.some(w => w.isoDate < today);
 
         // Section
         const section = document.createElement('section');
-        section.className = `month-section ${isMonthPaid ? 'paid-month collapsed' : ''}`;
+        section.className = ['month-section', isMonthPaid ? 'paid-month collapsed' : '', hasOverdueWeeks ? 'overdue-month' : ''].filter(Boolean).join(' ');
         section.style.animationDelay = `${index * 0.1}s`; // Staggered Entry
 
         // Header
@@ -124,7 +127,7 @@ function initApp() {
         header.innerHTML = `
             <div class="header-top">
                 <div>
-                    <span class="month-title">${monthGroup.name}</span>
+                    <span class="month-title">${monthGroup.name}${hasOverdueWeeks ? ' <span class="overdue-badge">Tertunggak</span>' : ''}</span>
                     <div class="month-meta">${weekCount} Minggu • Total RM ${totalAmount}</div>
                 </div>
                 <label class="toggle-switch" onclick="event.stopPropagation()">
@@ -150,10 +153,11 @@ function initApp() {
 
         const checkbox = header.querySelector('input');
         checkbox.addEventListener('change', (e) => {
+            if (navigator.vibrate) navigator.vibrate(50);
             saveMonthPayment(key, e.target.checked);
-            if(e.target.checked) {
-                fireConfetti(); // Trigger Confetti
-                playSuccessSound(); // Trigger Sound
+            if (e.target.checked) {
+                fireConfetti();
+                playSuccessSound();
             }
             updateUI();
         });
@@ -164,23 +168,22 @@ function initApp() {
         
         monthGroup.weeks.forEach(week => {
             const dateStr = formatDate(week.date);
-            const today = new Date().toISOString().split('T')[0];
-            
             const row = document.createElement('div');
 
             if (week.isHoliday) {
                 row.className = 'week-row week-holiday';
-                // Holiday Row Style
                 row.innerHTML = `
                     <span class="week-lbl" style="background:#fee2e2; color:#ef4444; border:none">CUTI</span>
                     <span class="week-dt" style="opacity:0.8">${dateStr}</span>
                     <span class="week-amt" style="font-size:0.75rem; color:#ef4444; text-transform:uppercase; text-align:right">${week.holidayName}</span>
                 `;
             } else {
-                // Standard Week Logic
                 let statusClass = '';
+                const isCurrentWeek = !isMonthPaid && !currentWeekEl && week.isoDate >= today;
                 if (isMonthPaid) {
                     statusClass = 'week-done';
+                } else if (isCurrentWeek) {
+                    statusClass = 'week-current';
                 } else if (week.isoDate < today) {
                     statusClass = 'week-pending';
                 }
@@ -191,6 +194,7 @@ function initApp() {
                     <span class="week-dt">${dateStr}</span>
                     <span class="week-amt">RM ${WEEKLY_PAYMENT}</span>
                 `;
+                if (isCurrentWeek) currentWeekEl = row;
             }
             weeksContainer.appendChild(row);
         });
@@ -200,6 +204,12 @@ function initApp() {
     });
 
     updateSummary(totalPaidWeeks);
+
+    if (currentWeekEl) {
+        setTimeout(() => {
+            currentWeekEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 700);
+    }
 
     // Update Target Date dynamically
     if (weeks.length > 0) {
@@ -323,6 +333,13 @@ function playSuccessSound() {
 
 function updateUI() {
     initApp();
+}
+
+function resetData() {
+    if (confirm('Pasti mahu reset semua data? Semua rekod bayaran akan dipadam.')) {
+        localStorage.removeItem(STORAGE_KEY);
+        updateUI();
+    }
 }
 
 function formatDate(date) {

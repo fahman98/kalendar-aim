@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#10b981">
+    <meta name="theme-color" content="#10b981" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
     <meta name="description" content="Jadual pembayaran balik Amanah Ikhtiar Malaysia">
     <link rel="icon" href="icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="icon.svg">
@@ -40,7 +41,8 @@
     <footer>
         <p>Sasaran Tamat: <span id="target-date">Mengira...</span></p>
         <p style="font-size: 0.7em; opacity: 0.5;">Versi 5.0.1 (Badge Fix)</p>
-        <button onclick="window.location.reload(true)" style="margin-top:10px; font-size:0.7em; padding:5px; background:rgba(0,0,0,0.1); border:none; border-radius:5px; color:inherit;">Paksa Refresh</button>
+        <button onclick="window.location.reload(true)" style="margin-top:10px; font-size:0.7em; padding:5px; background:rgba(0,0,0,0.1); border:none; border-radius:5px; color:inherit; cursor:pointer;">Paksa Refresh</button>
+        <button onclick="resetData()" style="margin-top:8px; display:block; margin-left:auto; margin-right:auto; font-size:0.7em; padding:5px 10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:5px; color:#ef4444; cursor:pointer;">Reset Data</button>
     </footer>
 
     <script src="app.js"></script>

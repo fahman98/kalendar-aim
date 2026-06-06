@@ -431,3 +431,140 @@ footer button {
 footer button:active {
     transform: scale(0.95);
 }
+
+/* Current week highlight */
+.week-current {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border-left: 3px solid #10b981;
+    border-radius: 8px;
+}
+
+.week-current .week-lbl {
+    background: #10b981;
+    color: white;
+}
+
+.week-current .week-dt {
+    color: #065f46 !important;
+    font-weight: 700 !important;
+}
+
+.week-current .week-amt {
+    color: #059669 !important;
+    font-weight: 700 !important;
+}
+
+/* Overdue month indicator */
+.overdue-month .month-header {
+    border-color: #fca5a5;
+}
+
+.overdue-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #fee2e2;
+    color: #dc2626;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0f172a;
+        --text: #e2e8f0;
+        --card-bg: #1e293b;
+        --border: #334155;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    }
+
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+    }
+
+    .month-header {
+        background-color: var(--card-bg);
+    }
+
+    .month-title {
+        color: var(--text);
+    }
+
+    .month-meta {
+        color: #94a3b8;
+    }
+
+    .month-section.paid-month .month-header {
+        background-color: #064e3b;
+    }
+
+    .header-bottom-calc {
+        background: #0f172a;
+    }
+
+    .weeks-container {
+        background: #1e293b;
+        border-color: var(--border);
+    }
+
+    .week-row {
+        color: #94a3b8;
+        border-color: #334155;
+    }
+
+    .week-lbl {
+        background: #334155;
+        color: #94a3b8;
+    }
+
+    .calc-row {
+        color: #94a3b8;
+    }
+
+    .total-row {
+        color: var(--text);
+    }
+
+    footer {
+        color: #64748b;
+    }
+
+    .week-current {
+        background: linear-gradient(135deg, #064e3b, #065f46);
+    }
+
+    .week-current .week-lbl {
+        background: #10b981;
+        color: white;
+    }
+
+    .week-current .week-dt {
+        color: #6ee7b7 !important;
+    }
+
+    .week-current .week-amt {
+        color: #34d399 !important;
+    }
+
+    .overdue-badge {
+        background: #450a0a;
+        color: #fca5a5;
+    }
+
+    .overdue-month .month-header {
+        border-color: #dc2626;
+    }
+}

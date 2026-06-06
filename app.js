@@ -1,6 +1,5 @@
 const TOTAL_WEEKS = 50;
-const WEEKLY_PAYMENT_CALC = 110; 
-const WEEKLY_PAYMENT_DISPLAY = 120; // For view (includes savings)
+const WEEKLY_PAYMENT = 120;
 const START_DATE_STR = '2025-10-13'; // YYYY-MM-DD
 const STORAGE_KEY = 'aim_schedule_data_v1';
 
@@ -86,13 +85,13 @@ function initApp() {
         const payableWeeks = monthGroup.weeks.filter(w => !w.isHoliday);
         const weekCount = payableWeeks.length;
         
-        const totalAmount = weekCount * WEEKLY_PAYMENT_DISPLAY; 
-        
+        const totalAmount = weekCount * WEEKLY_PAYMENT;
+
         // Split Logic
         const momWeeks = MOM_WEEKS_FIXED;
         const sonWeeks = Math.max(0, weekCount - MOM_WEEKS_FIXED); // Safety check
-        const momAmount = momWeeks * WEEKLY_PAYMENT_DISPLAY;    
-        const sonAmount = sonWeeks * WEEKLY_PAYMENT_DISPLAY;    
+        const momAmount = momWeeks * WEEKLY_PAYMENT;
+        const sonAmount = sonWeeks * WEEKLY_PAYMENT;    
 
         const isMonthPaid = savedData[key] === true;
         if (isMonthPaid) totalPaidWeeks += weekCount;
@@ -190,7 +189,7 @@ function initApp() {
                 row.innerHTML = `
                     <span class="week-lbl">M${week.id}</span>
                     <span class="week-dt">${dateStr}</span>
-                    <span class="week-amt">RM ${WEEKLY_PAYMENT_DISPLAY}</span>
+                    <span class="week-amt">RM ${WEEKLY_PAYMENT}</span>
                 `;
             }
             weeksContainer.appendChild(row);
@@ -216,8 +215,8 @@ function saveMonthPayment(monthKey, status) {
 }
 
 function updateSummary(paidCount) {
-    const totalAmount = TOTAL_WEEKS * WEEKLY_PAYMENT_CALC;
-    const paidAmount = paidCount * WEEKLY_PAYMENT_CALC;
+    const totalAmount = TOTAL_WEEKS * WEEKLY_PAYMENT;
+    const paidAmount = paidCount * WEEKLY_PAYMENT;
     const remaining = totalAmount - paidAmount;
 
     // Running Counter Animation

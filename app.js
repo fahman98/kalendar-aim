@@ -241,9 +241,7 @@ function updateSummary(paidCount) {
 // Animation Helpers
 function animateValue(id, start, end, duration) {
     const obj = document.getElementById(id);
-    // Simple check to see if we already have a value to animate from? 
-    // For now, let's just format the end.
-    // Actually, to make it "run", we set intervals.
+    if (!obj) return;
     let startTimestamp = null;
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
@@ -253,7 +251,7 @@ function animateValue(id, start, end, duration) {
         if (progress < 1) {
             window.requestAnimationFrame(step);
         } else {
-             obj.innerHTML = `RM ${end.toLocaleString()}`;
+            obj.innerHTML = `RM ${end.toLocaleString()}`;
         }
     };
     window.requestAnimationFrame(step);
@@ -261,13 +259,8 @@ function animateValue(id, start, end, duration) {
 
 function fireConfetti() {
     const count = 100;
-    const defaults = {
-        origin: { y: 0.7 }
-    };
-
-    // Simple Particle Generator
-    for(let i=0; i<50; i++) {
-        createParticle(window.innerWidth/2, window.innerHeight/2);
+    for (let i = 0; i < count; i++) {
+        createParticle(window.innerWidth / 2, window.innerHeight / 2);
     }
 }
 
@@ -306,24 +299,26 @@ function createParticle(x, y) {
 function playSuccessSound() {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return;
+    try {
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-    const ctx = new AudioContext();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1200, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1800, ctx.currentTime + 0.1);
 
-    // "Coin" Sound: High pitch with quick decay
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(1200, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1800, ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
 
-    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
-
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.5);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.5);
+    } catch (e) {
+        return;
+    }
 }
 
 function updateUI() {
